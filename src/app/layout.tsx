@@ -4,6 +4,8 @@ import { fontBranding, fontSans } from '@/lib/fonts';
 
 import '@/styles/globals.css';
 
+import { Providers } from '@/app/providers';
+
 export const metadata: Metadata = {
   title: 'TaskMaster 5000 (Lite)',
   description: 'A lightweight task management tool.',
@@ -18,11 +20,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       <body
         className={`${fontSans.variable} ${fontBranding.variable} antialiased`}
       >
-        {children}
+        <Providers
+          themeProps={{
+            attribute: 'class',
+            defaultTheme: 'system',
+            enableSystem: true,
+          }}
+        >
+          {children}
+        </Providers>
       </body>
     </html>
   );
