@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 
-import { fontBranding, fontSans } from '@/lib/fonts';
-
 import '@/styles/globals.css';
 
-import { Providers } from '@/app/providers';
+import RootLayoutClient from '@/app/layout.client';
 
 export const metadata: Metadata = {
   title: 'TaskMaster 5000 (Lite)',
@@ -26,21 +24,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html suppressHydrationWarning lang="en">
-      <body
-        className={`${fontSans.variable} ${fontBranding.variable} antialiased`}
-      >
-        <Providers
-          themeProps={{
-            attribute: 'class',
-            defaultTheme: 'system',
-            enableSystem: true,
-          }}
-        >
-          {children}
-        </Providers>
-      </body>
-    </html>
-  );
+  return <RootLayoutClient>{children}</RootLayoutClient>;
 }
