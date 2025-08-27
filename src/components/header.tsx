@@ -11,7 +11,7 @@ export function Header() {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="max-w-fit">
           <Link className="flex items-center justify-start gap-1" href="/">
-            <p className="font-branding text-3xl text-inherit italic">
+            <p className="font-branding text-2xl text-inherit italic md:text-3xl">
               TaskMaster 5000<sub>(Lite)</sub>
             </p>
           </Link>
@@ -19,7 +19,7 @@ export function Header() {
       </NavbarContent>
 
       <NavbarContent
-        className="hidden basis-1/5 sm:flex sm:basis-full sm:gap-2"
+        className="flex basis-1/5 gap-1 sm:basis-full sm:gap-2"
         justify="end"
       >
         <NavbarItem>

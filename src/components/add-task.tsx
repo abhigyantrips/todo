@@ -15,9 +15,18 @@ export function AddTaskButton() {
         size="lg"
         onPress={onOpen}
         startContent={<Plus size={20} />}
-        className="absolute right-6 bottom-6 z-10 rounded-full px-4 py-3 shadow-lg md:right-8 md:bottom-8"
+        className="absolute right-8 bottom-8 z-10 hidden rounded-full px-4 py-3 shadow-lg md:flex"
       >
         Add New Task
+      </Button>
+
+      <Button
+        color="primary"
+        isIconOnly
+        onPress={onOpen}
+        className="absolute right-6 bottom-6 z-10 rounded-full shadow-lg md:hidden"
+      >
+        <Plus size={20} />
       </Button>
 
       <AddTaskModal

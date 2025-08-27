@@ -111,8 +111,17 @@ export function TagsModal() {
 
   return (
     <>
-      <Button size="md" onPress={onOpen} startContent={<Tags size={20} />}>
+      <Button
+        size="md"
+        onPress={onOpen}
+        startContent={<Tags size={20} />}
+        className="hidden md:flex"
+      >
         Tags
+      </Button>
+
+      <Button size="sm" onPress={onOpen} isIconOnly className="md:hidden">
+        <Tags size={18} />
       </Button>
 
       <Modal

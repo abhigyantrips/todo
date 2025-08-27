@@ -29,13 +29,7 @@ import {
   DropdownTrigger,
 } from '@heroui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  ArrowUpDown,
-  ChevronDown,
-  ChevronRight,
-  RotateCcw,
-  Trash2,
-} from 'lucide-react';
+import { ArrowUpDown, ChevronDown, ChevronRight, Trash2 } from 'lucide-react';
 
 import { useState } from 'react';
 
@@ -134,7 +128,7 @@ export function TasksList() {
       >
         {/* Current Tasks Card */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
+          <CardHeader className="flex flex-row items-center justify-between space-y-2">
             <h2 className="text-default-600 text-sm font-bold tracking-wide uppercase">
               Current Tasks ({activeTasks.length})
             </h2>
@@ -147,7 +141,7 @@ export function TasksList() {
                   startContent={<ArrowUpDown size={14} />}
                   endContent={<ChevronDown size={14} />}
                 >
-                  Sort by {sortOptions.find((opt) => opt.key === sortBy)?.label}
+                  {sortOptions.find((opt) => opt.key === sortBy)?.label}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -296,7 +290,7 @@ function DeleteRegion() {
       }`}
     >
       <Trash2 size={20} />
-      <span className="font-medium">Drop to delete</span>
+      <span className="font-medium">Delete</span>
     </div>
   );
 }

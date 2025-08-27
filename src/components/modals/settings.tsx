@@ -39,8 +39,17 @@ export function SettingsModal() {
 
   return (
     <>
-      <Button size="md" onPress={onOpen} startContent={<Settings size={20} />}>
+      <Button
+        size="md"
+        onPress={onOpen}
+        startContent={<Settings size={20} />}
+        className="hidden md:flex"
+      >
         Settings
+      </Button>
+
+      <Button size="sm" onPress={onOpen} isIconOnly className="md:hidden">
+        <Settings size={18} />
       </Button>
 
       <Modal
