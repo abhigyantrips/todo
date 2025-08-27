@@ -10,8 +10,21 @@ import RootLayoutClient from '@/app/layout.client';
 export const metadata: Metadata = {
   title: 'TaskMaster 5000 (Lite)',
   description: 'A lightweight task management tool.',
+  appleWebApp: {
+    title: 'Tasks',
+    statusBarStyle: 'black-translucent',
+    capable: true,
+  },
   icons: {
     icon: '/favicon.png',
+    apple: '/apple-icon.png',
+    shortcut: '/favicon.png',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'TaskMaster 5000 (Lite)',
+    description: 'A lightweight task management tool.',
+    url: 'https://todo.abhi.now',
   },
 };
 
