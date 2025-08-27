@@ -130,7 +130,7 @@ export function TasksList() {
         {/* Current Tasks Card */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-2">
-            <h2 className="text-default-600 text-sm font-bold tracking-wide uppercase">
+            <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
               Current Tasks ({activeTasks.length})
             </h2>
 
@@ -185,7 +185,7 @@ export function TasksList() {
                 ) : (
                   <ChevronRight size={16} />
                 )}
-                <h2 className="text-default-600 text-sm font-bold tracking-wide uppercase">
+                <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
                   Completed Tasks ({completedTasks.length})
                 </h2>
               </div>
@@ -228,7 +228,7 @@ export function TasksList() {
                 ) : (
                   <ChevronRight size={16} />
                 )}
-                <h2 className="text-default-600 text-sm font-bold tracking-wide uppercase">
+                <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
                   Deleted Tasks ({deletedTasks.length})
                 </h2>
               </div>
