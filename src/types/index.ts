@@ -1,11 +1,11 @@
-interface Tag {
+export interface Tag {
   id: string;
   title: string;
   color: string;
   emoji: string;
 }
 
-interface Task {
+export interface Task {
   id: string;
   text: string;
   description: string;
@@ -17,7 +17,7 @@ interface Task {
   updatedAt: number;
 }
 
-interface Settings {
+export interface Settings {
   theme: 'light' | 'dark';
   hideCompleted: boolean;
   hideDeleted: boolean;

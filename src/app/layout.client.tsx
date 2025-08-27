@@ -14,7 +14,7 @@ export default function RootLayoutClient({
   return (
     <html suppressHydrationWarning lang="en">
       <body
-        className={`${fontSans.variable} ${fontBranding.variable} antialiased`}
+        className={`${fontSans.variable} ${fontBranding.variable} min-h-screen antialiased`}
       >
         <Providers
           themeProps={{
@@ -23,8 +23,10 @@ export default function RootLayoutClient({
             enableSystem: true,
           }}
         >
-          <Header />
-          {children}
+          <div className="relative flex h-screen flex-col">
+            <Header />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
