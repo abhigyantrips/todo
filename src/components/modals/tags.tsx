@@ -1,5 +1,6 @@
 'use client';
 
+import { useAppStore } from '@/stores/app';
 import {
   Button,
   Chip,
@@ -16,8 +17,6 @@ import {
 import { Edit2, Plus, Tags, Trash2 } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
-
-import { useTags } from '@/contexts/tags';
 
 // Predefined options
 const EMOJI_OPTIONS = [
@@ -40,21 +39,21 @@ const EMOJI_OPTIONS = [
 ];
 
 const COLOR_OPTIONS = [
-  { key: 'red', label: 'Red', color: 'bg-red-500' },
-  { key: 'orange', label: 'Orange', color: 'bg-orange-500' },
-  { key: 'yellow', label: 'Yellow', color: 'bg-yellow-500' },
-  { key: 'green', label: 'Green', color: 'bg-green-500' },
-  { key: 'blue', label: 'Blue', color: 'bg-blue-500' },
-  { key: 'indigo', label: 'Indigo', color: 'bg-indigo-500' },
-  { key: 'purple', label: 'Purple', color: 'bg-purple-500' },
-  { key: 'pink', label: 'Pink', color: 'bg-pink-500' },
-  { key: 'gray', label: 'Gray', color: 'bg-gray-500' },
-  { key: 'slate', label: 'Slate', color: 'bg-slate-500' },
+  { label: 'Red', color: 'bg-red-800' },
+  { label: 'Orange', color: 'bg-orange-800' },
+  { label: 'Yellow', color: 'bg-yellow-800' },
+  { label: 'Green', color: 'bg-green-800' },
+  { label: 'Blue', color: 'bg-blue-800' },
+  { label: 'Indigo', color: 'bg-indigo-800' },
+  { label: 'Purple', color: 'bg-purple-800' },
+  { label: 'Pink', color: 'bg-pink-800' },
+  { label: 'Gray', color: 'bg-gray-800' },
+  { label: 'Slate', color: 'bg-slate-800' },
 ];
 
 export function TagsModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { tags, addTag, updateTag, deleteTag } = useTags();
+  const { tags, addTag, updateTag, deleteTag } = useAppStore();
   const [mounted, setMounted] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -171,7 +170,7 @@ export function TagsModal() {
                         >
                           {COLOR_OPTIONS.map((option) => (
                             <SelectItem
-                              key={option.key}
+                              key={option.color}
                               startContent={
                                 <div
                                   className={`h-3 w-3 rounded-full ${option.color}`}
@@ -250,7 +249,7 @@ export function TagsModal() {
                                     >
                                       {COLOR_OPTIONS.map((option) => (
                                         <SelectItem
-                                          key={option.key}
+                                          key={option.color}
                                           startContent={
                                             <div
                                               className={`h-3 w-3 rounded-full ${option.color}`}

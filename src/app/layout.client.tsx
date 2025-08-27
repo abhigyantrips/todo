@@ -2,6 +2,7 @@
 
 import { fontBranding, fontSans } from '@/lib/fonts';
 
+import { AddTaskButton } from '@/components/add-task';
 import { Header } from '@/components/header';
 
 import { Providers } from '@/app/providers';
@@ -25,8 +26,12 @@ export default function RootLayoutClient({
         >
           <div className="relative flex h-full flex-col">
             <Header />
-            {children}
+            <main className="mx-auto w-full max-w-screen-md flex-1">
+              {children}
+            </main>
           </div>
+
+          <AddTaskButton />
         </Providers>
       </body>
     </html>

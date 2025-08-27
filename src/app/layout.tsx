@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 
-import { SettingsProvider } from '@/contexts/settings';
-import { TagsProvider } from '@/contexts/tags';
-import { TasksProvider } from '@/contexts/tasks';
-
 import '@/styles/globals.css';
 
 import RootLayoutClient from '@/app/layout.client';
@@ -41,13 +37,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <SettingsProvider>
-      <TagsProvider>
-        <TasksProvider>
-          <RootLayoutClient>{children}</RootLayoutClient>
-        </TasksProvider>
-      </TagsProvider>
-    </SettingsProvider>
-  );
+  return <RootLayoutClient>{children}</RootLayoutClient>;
 }

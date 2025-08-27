@@ -1,5 +1,6 @@
 'use client';
 
+import { useAppStore } from '@/stores/app';
 import {
   Button,
   Modal,
@@ -15,11 +16,9 @@ import { LayoutGrid, List, Moon, Settings, Sun } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
 
-import { useSettings } from '@/contexts/settings';
-
 export function SettingsModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { settings, updateSettings } = useSettings();
+  const { settings, updateSettings } = useAppStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

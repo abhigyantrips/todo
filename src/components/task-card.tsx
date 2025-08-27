@@ -1,9 +1,8 @@
-import { Card, CardBody, Checkbox, Chip } from '@heroui/react';
+import { useAppStore } from '@/stores/app';
+import { Button, Card, CardBody, Checkbox, Chip } from '@heroui/react';
+import { RotateCcw } from 'lucide-react';
 
-import { useSettings } from '@/contexts/settings';
-import { useTags } from '@/contexts/tags';
-import { Task } from '@/contexts/tasks';
-import { useTasks } from '@/contexts/tasks';
+import { Task } from '@/types';
 
 interface TaskCardProps {
   task: Task;
@@ -11,9 +10,7 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ task, dragProps }: TaskCardProps) {
-  const { updateTask } = useTasks();
-  const { tags } = useTags();
-  const { settings } = useSettings();
+  const { updateTask, tags, settings } = useAppStore(); // Use store instead of individual hooks
 
   const taskTags = tags.filter((tag) => task.tagIds.includes(tag.id));
 
@@ -32,15 +29,27 @@ export function TaskCard({ task, dragProps }: TaskCardProps) {
         {...dragProps}
       >
         <div className="flex items-start gap-3">
-          {/* Checkbox - prevent drag when clicked */}
+          {/* Replace the existing checkbox div with this: */}
           <div onClick={(e) => e.stopPropagation()}>
-            <Checkbox
-              size="lg"
-              isSelected={task.completed}
-              onChange={(checked) =>
-                updateTask(task.id, { completed: checked.target.checked })
-              }
-            />
+            {task.deleted ? (
+              <Button
+                isIconOnly
+                size="sm"
+                variant="flat"
+                color="success"
+                onPress={() => updateTask(task.id, { deleted: false })}
+              >
+                <RotateCcw size={16} />
+              </Button>
+            ) : (
+              <Checkbox
+                size="lg"
+                isSelected={task.completed}
+                onChange={(checked) =>
+                  updateTask(task.id, { completed: checked.target.checked })
+                }
+              />
+            )}
           </div>
 
           <div className="flex-1 space-y-2">
@@ -77,7 +86,7 @@ export function TaskCard({ task, dragProps }: TaskCardProps) {
                   <Chip
                     key={tag.id}
                     size="sm"
-                    color={tag.color as any}
+                    className={`${tag.color} gap-1 px-2 py-1`}
                     variant="flat"
                     startContent={<span>{tag.emoji}</span>}
                   >
