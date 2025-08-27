@@ -11,7 +11,7 @@ export function AddTaskButton() {
   return (
     <>
       <Button
-        color="primary"
+        color="success"
         size="lg"
         onPress={onOpen}
         startContent={<Plus size={20} />}
@@ -21,7 +21,7 @@ export function AddTaskButton() {
       </Button>
 
       <Button
-        color="primary"
+        color="success"
         isIconOnly
         onPress={onOpen}
         className="absolute right-6 bottom-6 z-10 rounded-full shadow-lg md:hidden"

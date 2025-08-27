@@ -197,7 +197,7 @@ export function TagsModal() {
                       </div>
 
                       <Button
-                        color="primary"
+                        color="success"
                         startContent={<Plus size={16} />}
                         onPress={handleAddTag}
                         isDisabled={!newTagTitle.trim()}

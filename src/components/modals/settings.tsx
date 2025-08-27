@@ -11,7 +11,15 @@ import {
   Switch,
   useDisclosure,
 } from '@heroui/react';
-import { LayoutGrid, List, Monitor, Moon, Settings, Sun } from 'lucide-react';
+import {
+  Download,
+  LayoutGrid,
+  List,
+  Monitor,
+  Moon,
+  Settings,
+  Sun,
+} from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { useEffect, useState } from 'react';
@@ -167,6 +175,29 @@ export function SettingsModal() {
                         </SelectItem>
                       ))}
                     </Select>
+                  </div>
+
+                  {/* PWA Install Section */}
+                  <div className="flex items-center justify-between md:hidden">
+                    <div className="flex flex-col">
+                      <span className="text-medium font-medium">
+                        Install Application
+                      </span>
+                      <span className="text-small text-default-500">
+                        Install TaskMaster as a native app.
+                      </span>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      startContent={<Download size={16} />}
+                      onPress={() => {
+                        // You can add logic to show install prompt manually
+                        window.dispatchEvent(new Event('show-install-prompt'));
+                      }}
+                    >
+                      Install
+                    </Button>
                   </div>
                 </div>
               </ModalBody>

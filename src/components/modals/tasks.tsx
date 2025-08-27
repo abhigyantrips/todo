@@ -261,7 +261,7 @@ export function AddTaskModal({
                 Cancel
               </Button>
               <Button
-                color="primary"
+                color="success"
                 onPress={handleAddTask}
                 isDisabled={!title.trim()}
                 startContent={<Plus size={16} />}
