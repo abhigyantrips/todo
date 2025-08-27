@@ -18,7 +18,7 @@ export interface Task {
 }
 
 export interface Settings {
-  theme: 'light' | 'dark';
+  theme: 'light' | 'dark' | 'system';
   hideCompleted: boolean;
   hideDeleted: boolean;
   viewMode: 'compact' | 'comfy';

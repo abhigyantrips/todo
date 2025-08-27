@@ -37,7 +37,7 @@ export const useAppStore = create<AppStore>()(
       tasks: [],
       tags: [],
       settings: {
-        theme: 'light',
+        theme: 'system',
         hideCompleted: false,
         hideDeleted: true,
         viewMode: 'comfy',
@@ -104,10 +104,6 @@ export const useAppStore = create<AppStore>()(
       updateSettings: (newSettings) => {
         const updated = { ...get().settings, ...newSettings };
         set({ settings: updated });
-
-        if (newSettings.theme) {
-          document.documentElement.className = newSettings.theme;
-        }
       },
 
       setSorting: (sortBy, sortOrder) => {

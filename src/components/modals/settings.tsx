@@ -11,7 +11,8 @@ import {
   Switch,
   useDisclosure,
 } from '@heroui/react';
-import { LayoutGrid, List, Moon, Settings, Sun } from 'lucide-react';
+import { LayoutGrid, List, Monitor, Moon, Settings, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 import { useEffect, useState } from 'react';
 
@@ -22,19 +23,32 @@ import { useResponsiveModalSize } from '@/lib/hooks';
 export function SettingsModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const modalSize = useResponsiveModalSize();
+  const { theme, setTheme } = useTheme();
   const { settings, updateSettings } = useAppStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+
+    // One-time sync on mount: update store to match next-themes
+    if (theme && theme !== settings.theme) {
+      updateSettings({ theme: theme as 'light' | 'dark' | 'system' });
+    }
+  }, [mounted]);
 
   if (!mounted) return null;
 
   const themeOptions = [
     { key: 'light', label: 'Light', icon: Sun },
     { key: 'dark', label: 'Dark', icon: Moon },
+    { key: 'system', label: 'System', icon: Monitor },
   ];
+
+  const handleThemeChange = (newTheme: string) => {
+    const themeValue = newTheme as 'light' | 'dark' | 'system';
+    setTheme(themeValue);
+    updateSettings({ theme: themeValue });
+  };
 
   const viewModeOptions = [
     { key: 'compact', label: 'Compact', icon: List },
@@ -77,12 +91,8 @@ export function SettingsModal() {
                     <Select
                       variant="bordered"
                       className="w-40"
-                      selectedKeys={[settings.theme]}
-                      onChange={(e) =>
-                        updateSettings({
-                          theme: e.target.value as 'light' | 'dark',
-                        })
-                      }
+                      selectedKeys={[theme || 'system']}
+                      onChange={(e) => handleThemeChange(e.target.value)}
                       disallowEmptySelection
                     >
                       {themeOptions.map((option) => (
@@ -100,10 +110,10 @@ export function SettingsModal() {
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                       <span className="text-medium font-medium">
-                        Hide completed tasks
+                        Hide Completed Tasks
                       </span>
                       <span className="text-small text-default-500">
-                        Hide tasks that are marked as complete
+                        Hide tasks that are marked as complete.
                       </span>
                     </div>
                     <Switch
@@ -119,10 +129,10 @@ export function SettingsModal() {
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                       <span className="text-medium font-medium">
-                        Hide deleted tasks
+                        Hide Deleted Tasks
                       </span>
                       <span className="text-small text-default-500">
-                        Hide tasks that are in the trash
+                        Hide tasks that are in the trash.
                       </span>
                     </div>
                     <Switch
