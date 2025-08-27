@@ -1,6 +1,5 @@
 'use client';
 
-import { useAppStore } from '@/stores/app';
 import {
   Button,
   Modal,
@@ -16,8 +15,13 @@ import { LayoutGrid, List, Moon, Settings, Sun } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
 
+import { useAppStore } from '@/stores/app';
+
+import { useResponsiveModalSize } from '@/lib/hooks';
+
 export function SettingsModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const modalSize = useResponsiveModalSize();
   const { settings, updateSettings } = useAppStore();
   const [mounted, setMounted] = useState(false);
 
@@ -53,7 +57,7 @@ export function SettingsModal() {
       </Button>
 
       <Modal
-        size="md"
+        size={modalSize || 'md'}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="center"

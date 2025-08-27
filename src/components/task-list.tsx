@@ -1,6 +1,5 @@
 'use client';
 
-import { useAppStore } from '@/stores/app';
 import {
   DndContext,
   DragEndEvent,
@@ -34,6 +33,8 @@ import { ArrowUpDown, ChevronDown, ChevronRight, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import { Task } from '@/types';
+
+import { useAppStore } from '@/stores/app';
 
 import { sortTasks } from '@/lib/utils';
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { useAppStore } from '@/stores/app';
 import {
   Button,
   Chip,
@@ -17,6 +16,10 @@ import {
 import { Edit2, Plus, Tags, Trash2 } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
+
+import { useAppStore } from '@/stores/app';
+
+import { useResponsiveModalSize } from '@/lib/hooks';
 
 // Predefined options
 const EMOJI_OPTIONS = [
@@ -53,6 +56,7 @@ const COLOR_OPTIONS = [
 
 export function TagsModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const modalSize = useResponsiveModalSize();
   const { tags, addTag, updateTag, deleteTag } = useAppStore();
   const [mounted, setMounted] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -125,7 +129,7 @@ export function TagsModal() {
       </Button>
 
       <Modal
-        size="lg"
+        size={modalSize || 'md'}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="center"

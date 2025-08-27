@@ -3,7 +3,7 @@
 import { Button, useDisclosure } from '@heroui/react';
 import { Plus } from 'lucide-react';
 
-import { AddTaskModal } from '@/components/modals/add-task';
+import { AddTaskModal } from '@/components/modals/tasks';
 
 export function AddTaskButton() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

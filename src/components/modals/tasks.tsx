@@ -1,6 +1,5 @@
 'use client';
 
-import { useAppStore } from '@/stores/app';
 import {
   Button,
   Chip,
@@ -19,6 +18,10 @@ import { Plus, Search, X } from 'lucide-react';
 
 import { useMemo, useState } from 'react';
 
+import { useAppStore } from '@/stores/app';
+
+import { useResponsiveModalSize } from '@/lib/hooks';
+
 interface AddTaskModalProps {
   isOpen: boolean;
   onOpen: () => void;
@@ -36,6 +39,7 @@ export function AddTaskModal({
   onOpen,
   onOpenChange,
 }: AddTaskModalProps) {
+  const modalSize = useResponsiveModalSize();
   const { addTask, tags } = useAppStore();
 
   // Form state
@@ -103,7 +107,7 @@ export function AddTaskModal({
 
   return (
     <Modal
-      size="lg"
+      size={modalSize || 'md'}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       onClose={handleClose}

@@ -1,8 +1,9 @@
-import { useAppStore } from '@/stores/app';
 import { Button, Card, CardBody, Checkbox, Chip } from '@heroui/react';
 import { RotateCcw } from 'lucide-react';
 
 import { Task } from '@/types';
+
+import { useAppStore } from '@/stores/app';
 
 interface TaskCardProps {
   task: Task;
