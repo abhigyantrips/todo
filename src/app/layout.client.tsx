@@ -4,7 +4,7 @@ import { fontBranding, fontSans } from '@/lib/fonts';
 
 import { AddTaskButton } from '@/components/add-task';
 import { Header } from '@/components/header';
-import { PWAInstallManager } from '@/components/installer';
+import { PWAInstall } from '@/components/pwa-install';
 
 import { Providers } from '@/app/providers';
 
@@ -32,7 +32,7 @@ export default function RootLayoutClient({
             </main>
           </div>
 
-          <PWAInstallManager />
+          <PWAInstall />
           <AddTaskButton />
         </Providers>
       </body>
