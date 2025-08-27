@@ -23,7 +23,7 @@ export default function RootLayoutClient({
             enableSystem: true,
           }}
         >
-          <div className="relative flex h-screen flex-col">
+          <div className="relative flex h-full flex-col">
             <Header />
             {children}
           </div>

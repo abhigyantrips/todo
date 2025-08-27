@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 
 import { SettingsProvider } from '@/contexts/settings';
 import { TagsProvider } from '@/contexts/tags';
+import { TasksProvider } from '@/contexts/tasks';
 
 import '@/styles/globals.css';
 
@@ -43,7 +44,9 @@ export default function RootLayout({
   return (
     <SettingsProvider>
       <TagsProvider>
-        <RootLayoutClient>{children}</RootLayoutClient>
+        <TasksProvider>
+          <RootLayoutClient>{children}</RootLayoutClient>
+        </TasksProvider>
       </TagsProvider>
     </SettingsProvider>
   );
