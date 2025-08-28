@@ -2,9 +2,14 @@ import { Task } from '@/types';
 
 export const sortTasks = (
   tasks: Task[],
-  sortBy: 'name' | 'priority' | 'createdAt',
+  sortBy: 'name' | 'priority' | 'createdAt' | 'custom',
   sortOrder: 'asc' | 'desc'
 ): Task[] => {
+  // If custom sorting, maintain the current order
+  if (sortBy === 'custom') {
+    return tasks;
+  }
+
   const priorityValues = { low: 1, medium: 2, high: 3 };
 
   return [...tasks].sort((a, b) => {

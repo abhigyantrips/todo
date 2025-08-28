@@ -7,7 +7,6 @@ import {
   DragStartEvent,
   KeyboardSensor,
   PointerSensor,
-  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
@@ -59,6 +58,12 @@ export function TasksList() {
   const [completedExpanded, setCompletedExpanded] = useState(false);
   const [deletedExpanded, setDeletedExpanded] = useState(false);
 
+  // Store the expanded states before dragging
+  const [preDragStates, setPreDragStates] = useState({
+    completedExpanded: false,
+    deletedExpanded: false,
+  });
+
   // Filter and sort tasks
   const activeTasks = sortTasks(
     tasks.filter((task) => !task.deleted && !task.completed),
@@ -74,12 +79,6 @@ export function TasksList() {
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
     }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 200,
-        tolerance: 6,
-      },
-    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -91,6 +90,17 @@ export function TasksList() {
       (task) => task.id === event.active.id
     );
     setActiveTask(activeTaskData || null);
+
+    // Store current expanded states
+    setPreDragStates({
+      completedExpanded,
+      deletedExpanded,
+    });
+
+    // Collapse both sections and switch to custom sorting
+    setCompletedExpanded(false);
+    setDeletedExpanded(false);
+    setSorting('custom');
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -114,6 +124,12 @@ export function TasksList() {
       const otherTasks = tasks.filter((task) => task.deleted || task.completed);
       reorderTasks([...reorderedActiveTasks, ...otherTasks]);
     }
+
+    // Restore expanded states after a short delay
+    setTimeout(() => {
+      setCompletedExpanded(preDragStates.completedExpanded);
+      setDeletedExpanded(preDragStates.deletedExpanded);
+    }, 300);
   };
 
   const handleRecover = (taskId: string) => {
@@ -124,6 +140,7 @@ export function TasksList() {
     { key: 'createdAt', label: 'Created Date' },
     { key: 'name', label: 'Name' },
     { key: 'priority', label: 'Priority' },
+    { key: 'custom', label: 'Custom Order' },
   ];
 
   return (
@@ -133,137 +150,156 @@ export function TasksList() {
         collisionDetection={closestCenter}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        modifiers={[]}
       >
         {/* Current Tasks Card */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-2">
-            <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
-              Current Tasks ({activeTasks.length})
-            </h2>
+        <div
+          className={
+            isDragging ? 'dnd-context-dragging space-y-4' : 'space-y-4'
+          }
+        >
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-2">
+              <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
+                Current Tasks ({activeTasks.length})
+              </h2>
 
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  variant="flat"
-                  size="sm"
-                  startContent={<ArrowUpDown size={14} />}
-                  endContent={<ChevronDown size={14} />}
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    variant="flat"
+                    size="sm"
+                    startContent={<ArrowUpDown size={14} />}
+                    endContent={<ChevronDown size={14} />}
+                  >
+                    {sortOptions.find((opt) => opt.key === sortBy)?.label}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Sort tasks"
+                  onAction={(key) => setSorting(key as any)}
                 >
-                  {sortOptions.find((opt) => opt.key === sortBy)?.label}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Sort tasks"
-                onAction={(key) => setSorting(key as any)}
-              >
-                {sortOptions.map((option) => (
-                  <DropdownItem key={option.key}>{option.label}</DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-          </CardHeader>
-
-          <CardBody className={`pt-0 ${activeTasks.length === 0 ? 'p-0' : ''}`}>
-            <SortableContext
-              items={activeTasks.map((task) => task.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              <div className="space-y-3">
-                <AnimatePresence mode="popLayout">
-                  {activeTasks.map((task) => (
-                    <AnimatedTask key={task.id} task={task} isDraggable />
+                  {sortOptions.map((option) => (
+                    <DropdownItem key={option.key}>{option.label}</DropdownItem>
                   ))}
-                </AnimatePresence>
-              </div>
-            </SortableContext>
-          </CardBody>
-        </Card>
-
-        {/* Completed Tasks Card */}
-        {!settings.hideCompleted && completedTasks.length > 0 && (
-          <Card>
-            <CardHeader
-              className="hover:bg-default-50 cursor-pointer"
-              onClick={() => setCompletedExpanded(!completedExpanded)}
-            >
-              <div className="flex items-center gap-2">
-                {completedExpanded ? (
-                  <ChevronDown size={16} />
-                ) : (
-                  <ChevronRight size={16} />
-                )}
-                <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
-                  Completed Tasks ({completedTasks.length})
-                </h2>
-              </div>
+                </DropdownMenu>
+              </Dropdown>
             </CardHeader>
 
-            <AnimatePresence>
-              {completedExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <CardBody className="pt-0">
-                    <div className="space-y-3">
-                      <AnimatePresence mode="popLayout">
-                        {completedTasks.map((task) => (
-                          <AnimatedTask key={task.id} task={task} />
-                        ))}
-                      </AnimatePresence>
-                    </div>
-                  </CardBody>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </Card>
-        )}
-
-        {/* Deleted Tasks Card */}
-        {!settings.hideDeleted && deletedTasks.length > 0 && (
-          <Card>
-            <CardHeader
-              className="hover:bg-default-50 cursor-pointer"
-              onClick={() => setDeletedExpanded(!deletedExpanded)}
+            <CardBody
+              className={`pt-0 ${activeTasks.length === 0 ? 'p-0' : ''}`}
             >
-              <div className="flex items-center gap-2">
-                {deletedExpanded ? (
-                  <ChevronDown size={16} />
-                ) : (
-                  <ChevronRight size={16} />
-                )}
-                <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
-                  Deleted Tasks ({deletedTasks.length})
-                </h2>
-              </div>
-            </CardHeader>
-
-            <AnimatePresence>
-              {deletedExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <CardBody className="pt-0">
-                    <div className="space-y-3">
-                      <AnimatePresence mode="popLayout">
-                        {deletedTasks.map((task) => (
-                          <AnimatedTask key={task.id} task={task} />
-                        ))}
-                      </AnimatePresence>
-                    </div>
-                  </CardBody>
-                </motion.div>
-              )}
-            </AnimatePresence>
+              <SortableContext
+                items={activeTasks.map((task) => task.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="space-y-3">
+                  <AnimatePresence mode="popLayout">
+                    {activeTasks.map((task) => (
+                      <AnimatedTask key={task.id} task={task} isDraggable />
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </SortableContext>
+            </CardBody>
           </Card>
-        )}
+
+          {/* Completed Tasks Card */}
+          {!settings.hideCompleted && completedTasks.length > 0 && (
+            <Card>
+              <CardHeader
+                className="hover:bg-default-50 cursor-pointer"
+                onClick={() => setCompletedExpanded(!completedExpanded)}
+              >
+                <div className="flex items-center gap-2">
+                  {completedExpanded ? (
+                    <ChevronDown size={16} />
+                  ) : (
+                    <ChevronRight size={16} />
+                  )}
+                  <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
+                    Completed Tasks ({completedTasks.length})
+                  </h2>
+                  {isDragging && !completedExpanded && (
+                    <span className="text-default-400 ml-2 text-xs">
+                      (Auto-collapsed)
+                    </span>
+                  )}
+                </div>
+              </CardHeader>
+
+              <AnimatePresence>
+                {completedExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <CardBody className="pt-0">
+                      <div className="space-y-3">
+                        <AnimatePresence mode="popLayout">
+                          {completedTasks.map((task) => (
+                            <AnimatedTask key={task.id} task={task} />
+                          ))}
+                        </AnimatePresence>
+                      </div>
+                    </CardBody>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Card>
+          )}
+
+          {/* Deleted Tasks Card */}
+          {!settings.hideDeleted && deletedTasks.length > 0 && (
+            <Card>
+              <CardHeader
+                className="hover:bg-default-50 cursor-pointer"
+                onClick={() => setDeletedExpanded(!deletedExpanded)}
+              >
+                <div className="flex items-center gap-2">
+                  {deletedExpanded ? (
+                    <ChevronDown size={16} />
+                  ) : (
+                    <ChevronRight size={16} />
+                  )}
+                  <h2 className="text-default-600 m-0 text-sm font-bold tracking-wide uppercase">
+                    Deleted Tasks ({deletedTasks.length})
+                  </h2>
+                  {isDragging && !deletedExpanded && (
+                    <span className="text-default-400 ml-2 text-xs">
+                      (Auto-collapsed)
+                    </span>
+                  )}
+                </div>
+              </CardHeader>
+
+              <AnimatePresence>
+                {deletedExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <CardBody className="pt-0">
+                      <div className="space-y-3">
+                        <AnimatePresence mode="popLayout">
+                          {deletedTasks.map((task) => (
+                            <AnimatedTask key={task.id} task={task} />
+                          ))}
+                        </AnimatePresence>
+                      </div>
+                    </CardBody>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Card>
+          )}
+        </div>
 
         {/* Delete Region */}
         {isDragging && <DeleteRegion />}

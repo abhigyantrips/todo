@@ -8,7 +8,7 @@ interface AppStore {
   tasks: Task[];
   tags: Tag[];
   settings: Settings;
-  sortBy: 'name' | 'priority' | 'createdAt';
+  sortBy: 'name' | 'priority' | 'createdAt' | 'custom';
   sortOrder: 'asc' | 'desc';
 
   // Task actions
@@ -25,7 +25,7 @@ interface AppStore {
   // Settings actions
   updateSettings: (newSettings: Partial<Settings>) => void;
   setSorting: (
-    sortBy: 'name' | 'priority' | 'createdAt',
+    sortBy: 'name' | 'priority' | 'createdAt' | 'custom',
     sortOrder?: 'asc' | 'desc'
   ) => void;
 }

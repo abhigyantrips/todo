@@ -27,6 +27,7 @@ export function TaskCard({ task, dragProps }: TaskCardProps) {
         className={`cursor-grab p-4 active:cursor-grabbing ${
           settings.viewMode === 'compact' ? 'py-3' : 'py-4'
         }`}
+        style={{ touchAction: 'none' }}
         {...dragProps}
       >
         <div className="flex items-start gap-3">
