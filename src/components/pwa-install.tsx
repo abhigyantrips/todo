@@ -86,7 +86,7 @@ export function PWAInstall() {
 
           <ModalFooter className="flex-col gap-2">
             <Button
-              color="primary"
+              color="success"
               onPress={handleInstallClick}
               startContent={<Download size={16} />}
               className="w-full"

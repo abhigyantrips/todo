@@ -88,7 +88,7 @@ export function TaskCard({ task, dragProps }: TaskCardProps) {
                   <Chip
                     key={tag.id}
                     size="sm"
-                    className={`${tag.color} gap-1 px-2 py-1`}
+                    className={`${tag.color} text-default-100 dark:text-default-900 gap-1 px-2 py-1`}
                     variant="flat"
                     startContent={<span>{tag.emoji}</span>}
                   >

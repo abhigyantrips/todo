@@ -157,6 +157,7 @@ export function TasksList() {
           className={
             isDragging ? 'dnd-context-dragging space-y-4' : 'space-y-4'
           }
+          suppressHydrationWarning
         >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-2">
@@ -186,9 +187,7 @@ export function TasksList() {
               </Dropdown>
             </CardHeader>
 
-            <CardBody
-              className={`pt-0 ${activeTasks.length === 0 ? 'p-0' : ''}`}
-            >
+            <CardBody className={`${activeTasks.length === 0 ? 'p-0' : ''}`}>
               <SortableContext
                 items={activeTasks.map((task) => task.id)}
                 strategy={verticalListSortingStrategy}

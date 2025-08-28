@@ -179,7 +179,7 @@ export function AddTaskModal({
                           key={tag.id}
                           variant="flat"
                           startContent={<span>{tag.emoji}</span>}
-                          className={`${tag.color} gap-1 px-2 py-1`}
+                          className={`${tag.color} text-default-100 dark:text-default-900 gap-1 px-2 py-1`}
                           endContent={
                             <button
                               className="hover:text-danger ml-1"
@@ -221,7 +221,7 @@ export function AddTaskModal({
                                 key={tag.id}
                                 variant={isSelected ? 'solid' : 'flat'}
                                 startContent={<span>{tag.emoji}</span>}
-                                className={`cursor-pointer transition-opacity ${tag.color} text-default-900 gap-1 px-2 py-1 ${
+                                className={`cursor-pointer transition-opacity ${tag.color} text-default-100 dark:text-default-900 gap-1 px-2 py-1 ${
                                   isSelected
                                     ? 'opacity-100'
                                     : 'opacity-70 hover:opacity-100'
