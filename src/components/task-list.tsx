@@ -236,7 +236,7 @@ export function TasksList() {
                     transition={{ duration: 0.2 }}
                     style={{ overflow: 'hidden' }}
                   >
-                    <CardBody className="pt-0">
+                    <CardBody>
                       <div className="space-y-3">
                         <AnimatePresence mode="popLayout">
                           {completedTasks.map((task) => (
@@ -284,7 +284,7 @@ export function TasksList() {
                     transition={{ duration: 0.2 }}
                     style={{ overflow: 'hidden' }}
                   >
-                    <CardBody className="pt-0">
+                    <CardBody>
                       <div className="space-y-3">
                         <AnimatePresence mode="popLayout">
                           {deletedTasks.map((task) => (
